@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>COD20 STORE | المتجر الرسمي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Orbitron:wght@700;900&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black:    #090a0c;
+      --dark:     #111318;
+      --card:     #16191f;
+      --border:   #2a2d36;
+      --orange:   #ff6a00;
+      --gold:     #ffd200;
+      --white:    #e8eaf0;
+      --muted:    #7a7f8e;
+      --green:    #00e676;
+      --red:      #ff1744;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Cairo', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem;
+      height: 64px;
+      background: rgba(9,10,12,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.2rem;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      color: var(--white);
+    }
+    .nav-logo span { color: var(--orange); }
+
+    .nav-links {
+      display: flex; gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+
+    .nav-cta {
+      background: var(--orange);
+      color: #000;
+      font-weight: 900;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      padding: 0.5rem 1.2rem;
+      border: none;
+      cursor: pointer;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: background .2s, transform .15s;
+    }
+    .nav-cta:hover { background: var(--gold); transform: scale(1.04); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 90vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 4rem 1.5rem;
+    }
+
+    /* animated scan-line grid */
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,106,0,0.04) 60px),
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,106,0,0.04) 60px);
+      pointer-events: none;
+      animation: gridpulse 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes gridpulse {
+      from { opacity: 0.4; }
+      to   { opacity: 1; }
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(255,106,0,0.18) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: glowpulse 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowpulse {
+      from { transform: scale(0.9); opacity: 0.7; }
+      to   { transform: scale(1.1); opacity: 1; }
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 780px; }
+
+    .hero-eyebrow {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      color: var(--orange);
+      margin-bottom: 1.2rem;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(2.4rem, 7vw, 5rem);
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .hero-title .accent { color: var(--orange); }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin: 1rem 0 2.4rem;
+      line-height: 1.7;
+    }
+
+    .hero-btns {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 0.9rem 2.2rem;
+      background: var(--orange);
+      color: #000;
+      border: none; cursor: pointer;
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+      transition: background .2s, transform .15s;
+      text-transform: uppercase;
+    }
+    .btn-primary:hover { background: var(--gold); transform: translateY(-2px); }
+
+    .btn-ghost {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 0.9rem 2.2rem;
+      background: transparent;
+      color: var(--white);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+      transition: border-color .2s, color .2s;
+      text-transform: uppercase;
+    }
+    .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ── TICKER ── */
+    .ticker-wrap {
+      overflow: hidden;
+      background: var(--orange);
+      padding: 0.5rem 0;
+      white-space: nowrap;
+    }
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 22s linear infinite;
+    }
+    .ticker-inner span {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: #000;
+      margin: 0 2.5rem;
+      text-transform: uppercase;
+    }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── SECTION ── */
+    section { padding: 5rem 2rem; position: relative; z-index: 1; }
+    .section-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.3em;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── CATEGORIES ── */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    .cat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 1.8rem 1.2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .25s, transform .2s;
+      clip-path: polygon(16px 0%, 100% 0%, calc(100% - 16px) 100%, 0% 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .cat-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--orange);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .3s;
+    }
+    .cat-card:hover { border-color: var(--orange); transform: translateY(-4px); }
+    .cat-card:hover::before { transform: scaleX(1); }
+
+    .cat-icon { font-size: 2.4rem; margin-bottom: 0.8rem; }
+    .cat-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+    .cat-count { font-size: 0.75rem; color: var(--muted); }
+
+    /* ── PRODUCTS ── */
+    .products-section { background: var(--dark); }
+
+    .filters {
+      display: flex; gap: 0.6rem; flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .filter-btn {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 0.4rem 1rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all .2s;
+    }
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #000;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.4rem;
+      max-width: 1200px; margin: 0 auto;
+    }
+
+    .product-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: border-color .25s, transform .2s;
+      position: relative;
+    }
+    .product-card:hover { border-color: var(--orange); transform: translateY(-4px); }
+
+    .product-badge {
+      position: absolute; top: 12px; right: 12px;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 0.25rem 0.6rem;
+      text-transform: uppercase;
+    }
+    .badge-new  { background: var(--green);  color: #000; }
+    .badge-hot  { background: var(--red);    color: #fff; }
+    .badge-sale { background: var(--gold);   color: #000; }
+
+    .product-img {
+      width: 100%; aspect-ratio: 16/9;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+      background: linear-gradient(135deg, #1a1d25 0%, #111318 100%);
+    }
+
+    .product-body { padding: 1.2rem; }
+
+    .product-rarity {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .rarity-legendary { color: #ff9f00; }
+    .rarity-epic      { color: #b833ff; }
+    .rarity-rare      { color: #2979ff; }
+
+    .product-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+    .product-desc { font-size: 0.78rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
+
+    .product-footer {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .product-price {
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--gold);
+    }
+    .product-price .currency { font-size: 0.65rem; color: var(--muted); margin-right: 0.2rem; }
+
+    .add-btn {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 0.45rem 1rem;
+      background: var(--orange);
+      color: #000;
+      border: none; cursor: pointer;
+      text-transform: uppercase;
+      clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+      transition: background .2s;
+    }
+    .add-btn:hover { background: var(--gold); }
+
+    /* ── BUNDLES HIGHLIGHT ── */
+    .bundle-section { text-align: center; }
+
+    .bundle-card {
+      max-width: 780px; margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--orange);
+      padding: 3rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .bundle-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(255,106,0,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .bundle-tag {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .bundle-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.5rem, 4vw, 2.6rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .bundle-items {
+      display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center;
+      margin: 1.5rem 0;
+    }
+    .bundle-item {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.35rem 0.9rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .bundle-price-row {
+      display: flex; gap: 1rem; align-items: baseline; justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    .bundle-old { font-size: 1rem; color: var(--muted); text-decoration: line-through; }
+    .bundle-new {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--gold);
+    }
+    .bundle-save {
+      font-size: 0.75rem;
+      background: var(--orange);
+      color: #000;
+      font-weight: 900;
+      padding: 0.2rem 0.6rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 2rem;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .footer-col h4 {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: color .2s;
+    }
+    .footer-col ul li:hover { color: var(--white); }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding: 1.2rem 2rem;
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: 'Orbitron', monospace;
+      letter-spacing: 0.12em;
+    }
+    .footer-bottom span { color: var(--orange); }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 0; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">COD<span>20</span> STORE</div>
+  <ul class="nav-links">
+    <li><a href="#categories">الفئات</a></li>
+    <li><a href="#products">المنتجات</a></li>
+    <li><a href="#bundle">الحزم</a></li>
+  </ul>
+  <button class="nav-cta">سجّل دخول</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">// متجر كود تونتي الرسمي //</p>
+    <h1 class="hero-title">
+      UPGRADE<br><span class="accent">YOUR ARSENAL</span>
+    </h1>
+    <p class="hero-sub">
+      ألوان أسلحة، حزم، مستلزمات — كل شي بسعر يناسبك
+    </p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">تسوّق الآن</button>
+      <button class="btn-ghost" onclick="document.getElementById('bundle').scrollIntoView({behavior:'smooth'})">شوف الحزم</button>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span>🔥 عروض يومية</span>
+    <span>⚡ لون جديد | VOID STRIKE</span>
+    <span>🎯 حزمة المحترفين — وصلت!</span>
+    <span>💎 ندرة Legendary على كل حزم هذا الأسبوع</span>
+    <span>🔥 عروض يومية</span>
+    <span>⚡ لون جديد | VOID STRIKE</span>
+    <span>🎯 حزمة المحترفين — وصلت!</span>
+    <span>💎 ندرة Legendary على كل حزم هذا الأسبوع</span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section id="categories">
+  <div style="max-width:1100px;margin:0 auto;">
+    <p class="section-label">// تصفح حسب الفئة</p>
+    <h2 class="section-title">الفئات</h2>
+    <div class="categories-grid">
+      <div class="cat-card">
+        <div class="cat-icon">🎨</div>
+        <div class="cat-name">ألوان أسلحة</div>
+        <div class="cat-count">٤٢ لون متاح</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">📦</div>
+        <div class="cat-name">حزم كاملة</div>
+        <div class="cat-count">١٨ حزمة</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🪖</div>
+        <div class="cat-name">سكنات المشغّل</div>
+        <div class="cat-count">٢٩ سكن</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">💥</div>
+        <div class="cat-name">مؤثرات بصرية</div>
+        <div class="cat-count">٣٥ مؤثر</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🏆</div>
+        <div class="cat-name">بطاقات الزيارة</div>
+        <div class="cat-count">٢١ بطاقة</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" class="products-section">
+  <div style="max-width:1200px;margin:0 auto;">
+    <p class="section-label">// المتجر</p>
+    <h2 class="section-title">المنتجات</h2>
+
+    <div class="filters">
+      <button class="filter-btn active">الكل</button>
+      <button class="filter-btn" onclick="this.parentNode.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">ألوان أسلحة</button>
+      <button class="filter-btn" onclick="this.parentNode.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">حزم</button>
+      <button class="filter-btn" onclick="this.parentNode.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">سكنات</button>
+      <button class="filter-btn" onclick="this.parentNode.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">مؤثرات</button>
+    </div>
+
+    <div class="products-grid">
+
+      <!-- Product 1 -->
+      <div class="product-card">
+        <span class="product-badge badge-hot">🔥 الأكثر طلباً</span>
+        <div class="product-img">🔫</div>
+        <div class="product-body">
+          <div class="product-rarity rarity-legendary">◆ Legendary</div>
+          <div class="product-name">VOID STRIKE</div>
+          <div class="product-desc">لون سلاح بتأثير الفراغ الكوني — يضيء عند كل إطلاق</div>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">COD</span>2,400</div>
+            <button class="add-btn">أضف للسلة</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card">
+        <span class="product-badge badge-new">✨ جديد</span>
+        <div class="product-img">🎨</div>
+        <div class="product-body">
+          <div class="product-rarity rarity-epic">◆ Epic</div>
+          <div class="product-name">INFERNO CAMO</div>
+          <div class="product-desc">لون بتدرّج ناري يتحرك على جسم السلاح</div>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">COD</span>1,800</div>
+            <button class="add-btn">أضف للسلة</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card">
+        <span class="product-badge badge-sale">💰 خصم</span>
+        <div class="product-img">📦</div>
+        <div class="product-body">
+          <div class="product-rarity rarity-legendary">◆ Legendary</div>
+          <div class="product-name">SHADOW OPS BUNDLE</div>
+          <div class="product-desc">حزمة كاملة — سكن + لونين + مؤثر خاص + بطاقة زيارة</div>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">COD</span>4,200</div>
+            <button class="add-btn">أضف للسلة</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card">
+        <div class="product-img">🪖</div>
+        <div class="product-body">
+          <div class="product-rarity rarity-rare">◆ Rare</div>
+          <div class="product-name">GHOST REAPER</div>
+          <div class="product-desc">سكن المشغّل بتصميم الشبح الأسود — مع حركات مخصصة</div>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">COD</span>1,200</div>
+            <button class="add-btn">أضف للسلة</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="product-card">
+        <span class="product-badge badge-new">✨ جديد</span>
+        <div class="product-img">💥</div>
+        <div class="product-body">
+          <div class="product-rarity rarity-epic">◆ Epic</div>
+          <div class="product-name">NEON BLAST FX</div>
+          <div class="product-desc">مؤثر بصري نيون عند القتل — يتفجر بألوان فورية</div>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">COD</span>900</div>
+            <button class="add-btn">أضف للسلة</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 6 -->
+      <div class="product-card">
+        <div class="product-img">🏆</div>
+        <div class="product-body">
+          <div class="product-rarity rarity-legendary">◆ Legendary</div>
+          <div class="product-name">APEX CALLING CARD</div>
+          <div class="product-desc">بطاقة زيارة متحركة تُظهر إحصائياتك بأسلوب سينمائي</div>
+          <div class="product-footer">
+            <div class="product-price"><span class="currency">COD</span>600</div>
+            <button class="add-btn">أضف للسلة</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BUNDLE HIGHLIGHT -->
+<section id="bundle" class="bundle-section">
+  <div style="max-width:1100px;margin:0 auto;">
+    <p class="section-label">// عرض محدود</p>
+    <h2 class="section-title">حزمة الأسبوع</h2>
+    <div class="bundle-card">
+      <div class="bundle-tag">// WEEKLY DROP — وقت محدود //</div>
+      <div class="bundle-title">ULTIMATE WAR PACK</div>
+      <div class="bundle-items">
+        <span class="bundle-item">🔫 لون Legendary × 3</span>
+        <span class="bundle-item">🪖 سكن Epic × 1</span>
+        <span class="bundle-item">💥 مؤثر بصري × 2</span>
+        <span class="bundle-item">🏆 بطاقة Legendary × 1</span>
+        <span class="bundle-item">📦 لحظات تشغيل مخصصة</span>
+      </div>
+      <div class="bundle-price-row">
+        <span class="bundle-old">9,800 COD</span>
+        <span class="bundle-new">6,400 COD</span>
+        <span class="bundle-save">وفّر 35%</span>
+      </div>
+      <button class="btn-primary">اشترِ الحزمة</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-col">
+    <h4>المتجر</h4>
+    <ul>
+      <li>ألوان أسلحة</li>
+      <li>الحزم</li>
+      <li>السكنات</li>
+      <li>العروض</li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>الدعم</h4>
+    <ul>
+      <li>الأسئلة الشائعة</li>
+      <li>سياسة الاسترجاع</li>
+      <li>تواصل معنا</li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>الحساب</h4>
+    <ul>
+      <li>تسجيل الدخول</li>
+      <li>إنشاء حساب</li>
+      <li>سلة المشتريات</li>
+      <li>المشتريات السابقة</li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>تابعنا</h4>
+    <ul>
+      <li>تويتر / X</li>
+      <li>إنستقرام</li>
+      <li>يوتيوب</li>
+      <li>تيك توك</li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  © 2025 <span>COD20 STORE</span> — جميع الحقوق محفوظة
+</div>
+
+</body>
+</html>
